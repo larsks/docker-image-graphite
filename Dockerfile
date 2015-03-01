@@ -5,6 +5,7 @@ RUN yum -y install graphite-web logrotate; yum clean all
 
 VOLUME /var/lib/graphite-web
 VOLUME /var/lib/carbon
+VOLUME /var/log
 EXPOSE 80
 
 ENTRYPOINT ["/entrypoint.sh"]
