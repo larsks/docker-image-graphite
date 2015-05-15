@@ -19,10 +19,6 @@ fi
 
 chown -R apache:apache /var/lib/graphite-web
 
-if [ ! -f /var/lib/graphite-web/graphite.db ]; then
-	runuser -u apache -- graphite-manage syncdb --noinput
-fi
-
 if [ ! -f /etc/graphite-web/local_settings.py ]; then
 	if [ "$GRAPHITE_SECRET_KEY" = "UNSAFE_DEFAULT" ]; then
 		GRAPHITE_SECRET_KEY=$(
@@ -36,6 +32,10 @@ if [ ! -f /etc/graphite-web/local_settings.py ]; then
 	envsubst \
 		< $sysconfdir/local_settings.py.in \
 		> $sysconfdir/local_settings.py
+fi
+
+if [ ! -f /var/lib/graphite-web/graphite.db ]; then
+	runuser -u apache -- graphite-manage syncdb --noinput
 fi
 
 exec "$@"
